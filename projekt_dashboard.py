@@ -56,8 +56,10 @@ def update_sunburst(dummy_input):
         custom_data=['Baugruppe_full', 'Projekttitel_full']
     )
     
-    # Hover-Text mit größerer Schrift
+    # Schriftgröße für die Texte im inneren und äußeren Kreis anpassen
     sunburst_chart.update_traces(
+        insidetextfont=dict(size=10),  # Schriftgröße im Kreis reduzieren
+        outsidetextfont=dict(size=8),  # Schriftgröße außerhalb reduzieren
         hovertemplate=(
             "<span style='font-size:16px;'><b>Baugruppe:</b> %{customdata[0]}<br>"
             "<b>Projekttitel:</b> %{customdata[1]}</span><extra></extra>"
