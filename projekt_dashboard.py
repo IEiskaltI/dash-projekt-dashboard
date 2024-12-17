@@ -19,18 +19,18 @@ df['Projekt_ID'] = pd.to_numeric(df['Projekt_ID'], errors='coerce').astype('Int6
 # Ersetze NaN-Werte durch "Weitere"
 df = df.fillna("Weitere")
 
-# Filtere nur die gewünschten IDs
-df = df[df['Projekt_ID'].isin(projekt_ids)]
+# Speichere die vollständigen Namen für Hover-Informationen
+df['Baugruppe_full'] = df['Baugruppe']
+df['Projekttitel_full'] = df['Projekttitel']
 
-# Kürze lange Texte in allen Spalten mit Strings
+# Kürze lange Texte in den Spalten "Baugruppe" und "Projekttitel" für die Anzeige
 def shorten_text(value, max_length=20):
     if isinstance(value, str) and len(value) > max_length:
         return value[:max_length] + '...'
     return value
 
-# Wende die Kürzung auf alle String-Spalten an
-for col in df.select_dtypes(include='object').columns:
-    df[col] = df[col].apply(lambda x: shorten_text(x, max_length=20))
+df['Baugruppe'] = df['Baugruppe'].apply(lambda x: shorten_text(x, max_length=15))
+df['Projekttitel'] = df['Projekttitel'].apply(lambda x: shorten_text(x, max_length=20))
 
 # Dash App initialisieren
 app = dash.Dash(__name__)
@@ -52,8 +52,18 @@ def update_sunburst(dummy_input):
         df,
         path=['Baugruppe', 'Projekttitel'],
         title=None,
-        color='Baugruppe'
+        color='Baugruppe',
+        custom_data=['Baugruppe_full', 'Projekttitel_full']
     )
+    
+    # Hover-Text mit größerer Schrift
+    sunburst_chart.update_traces(
+        hovertemplate=(
+            "<span style='font-size:16px;'><b>Baugruppe:</b> %{customdata[0]}<br>"
+            "<b>Projekttitel:</b> %{customdata[1]}</span><extra></extra>"
+        )
+    )
+    
     return sunburst_chart
 
 if __name__ == '__main__':
