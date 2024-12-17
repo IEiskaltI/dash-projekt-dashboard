@@ -2,6 +2,7 @@ import pandas as pd
 import dash
 from dash import dcc, html, Input, Output
 import plotly.express as px
+import os
 
 # CSV-Datei laden
 df = pd.read_csv("entwicklungsprozesse.csv")
@@ -34,4 +35,5 @@ def update_sunburst(dummy_input):
     return sunburst_chart
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    port = int(os.environ.get("PORT", 8050))
+    app.run_server(debug=False, host='0.0.0.0', port=port)
