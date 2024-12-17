@@ -58,8 +58,8 @@ def update_sunburst(dummy_input):
     
     # Schriftgröße für die Texte im inneren und äußeren Kreis anpassen
     sunburst_chart.update_traces(
-        insidetextfont=dict(size=10),  # Schriftgröße im Kreis reduzieren
-        outsidetextfont=dict(size=8),  # Schriftgröße außerhalb reduzieren
+        insidetextfont=dict(size=14),  # Schriftgröße im Kreis reduzieren
+        outsidetextfont=dict(size=12),  # Schriftgröße außerhalb reduzieren
         hovertemplate=(
             "<span style='font-size:16px;'><b>Baugruppe:</b> %{customdata[0]}<br>"
             "<b>Projekttitel:</b> %{customdata[1]}</span><extra></extra>"
