@@ -7,8 +7,19 @@ import os
 # CSV-Datei laden
 df = pd.read_csv("entwicklungsprozesse.csv")
 
-# None-Werte entfernen
-df = df.dropna(subset=['Baugruppe', 'Projekttitel'])
+# Nur bestimmte Projekt_IDs auswählen
+projekt_ids = [
+    111, 114, 115, 141, 124, 117, 108, 135, 2, 32, 59, 26, 122, 98, 46, 92, 93, 64, 72, 83,
+    121, 90, 13, 104, 119, 99, 137, 143, 132, 102, 68, 94, 89, 14, 116, 130, 131, 136, 118,
+    63, 129, 103, 120, 126, 134, 142, 128, 127, 16, 70, 140, 17
+]
+
+# Filtere nur die gewünschten IDs
+df = df[df['Projekt_ID'].isin(projekt_ids)]
+
+# Kürze lange Texte in den Spalten "Baugruppe" und "Projekttitel"
+df['Baugruppe'] = df['Baugruppe'].apply(lambda x: x[:15] + '...' if len(x) > 15 else x)
+df['Projekttitel'] = df['Projekttitel'].apply(lambda x: x[:20] + '...' if len(x) > 20 else x)
 
 # Dash App initialisieren
 app = dash.Dash(__name__)
